@@ -9,6 +9,7 @@ Each week lives in its own folder under [`flutter_2026/`](flutter_2026/) and has
 |------|-------|--------|
 | 1 | Dart basics: variables, control flow, functions, collections, null safety, classes | [week1](flutter_2026/week1/README.md) |
 | 2 | Your first Flutter app: the counter app, widgets, `setState` | [week2](flutter_2026/week2/) |
+| 3 | To-do app: lists, text input, model classes, organising code into folders | [week3](flutter_2026/week3/toddo_app/README.md) |
 
 <!-- Add a new row here each week -->
 
@@ -115,5 +116,6 @@ teaching/
 ├── README.md            ← you are here
 └── flutter_2026/
     ├── week1/           ← Dart language basics (plain .dart files)
-    └── week2/           ← Flutter counter app
+    ├── week2/           ← Flutter counter app
+    └── week3/           ← Flutter to-do app
 ```
