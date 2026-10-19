@@ -27,12 +27,19 @@ lib/
 ├── main.dart              # starts the app, sets the theme, opens TodoPage
 ├── models/
 │   └── tasks.dart         # Task class: the data (title + isDone)
-└── screens/
-    └── todo_page.dart     # TodoPage: the screen and all its logic
+├── screens/
+│   └── todo_page.dart     # TodoPage: the screen and all its logic
+├── services/              # (week 4)
+│   └── task_storage.dart  # saves and loads tasks on the device
+└── widgets/               # (week 4)
+    ├── task_tile.dart        # one row in the list
+    └── edit_task_dialog.dart # pop-up for renaming a task
 ```
 
 - **models/** hold plain Dart classes that describe your data. No widgets.
 - **screens/** hold the pages the user sees.
+- **services/** do jobs for the app that have no UI, like saving data.
+- **widgets/** hold smaller reusable pieces of UI that screens are built from.
 
 We import our own files with the package name from `pubspec.yaml`:
 ```dart
@@ -95,6 +102,46 @@ which task the row is for, and that same index is passed to `_toggleTask` and
 - `Expanded` says "take up the remaining space". We need it around the `TextField`
   (inside a `Row`) and around the `ListView` (inside a `Column`). Without it, Flutter
   can't work out their size and shows a layout error.
+
+## Week 4: saving, editing, and swipe to delete
+
+In week 4 we finished the to-do app. Tasks are now **saved on the device**, so they
+are still there after you close the app. You can also **edit** and **swipe to delete**
+tasks.
+
+| Feature | Where to look |
+|---------|---------------|
+| Tasks are saved and loaded with `shared_preferences` | [lib/services/task_storage.dart](lib/services/task_storage.dart) |
+| `Task` can turn into JSON and back | `toJson()` and `Task.fromJson` in [tasks.dart](lib/models/tasks.dart) |
+| Spinner while saved tasks load | `initState`, `_loadTasks()`, `_isLoading` in [todo_page.dart](lib/screens/todo_page.dart) |
+| Every change is saved automatically | `_update()` in [todo_page.dart](lib/screens/todo_page.dart) |
+| Each row is its own widget | [lib/widgets/task_tile.dart](lib/widgets/task_tile.dart) |
+| Swipe left to delete | `Dismissible` in `TaskTile` |
+| Tap a task to edit it | [lib/widgets/edit_task_dialog.dart](lib/widgets/edit_task_dialog.dart), `_editTask()` |
+
+### Key ideas
+
+**`async` / `await` and `Future`.** Reading from storage takes a moment. A `Future` is
+a value that arrives later, and `await` waits for it without freezing the app:
+```dart
+Future<void> _loadTasks() async {
+  final loaded = await _storage.load();
+  if (!mounted) return; // the user may have left the screen while we waited
+  setState(() => _tasks = loaded);
+}
+```
+
+**JSON.** Storage only understands simple values, so we turn each `Task` into a `Map`
+(`toJson`) and the whole list into one string (`jsonEncode`). Loading does the reverse
+with `jsonDecode` and `Task.fromJson`.
+
+**Passing functions into widgets.** `TaskTile` doesn't change any data itself. The
+screen gives it `onToggle`, `onDelete`, and `onEdit` (`VoidCallback`s), and the tile
+calls them when the user taps or swipes.
+
+**Getting a value back from a dialog.** `showDialog` returns a `Future`.
+`Navigator.pop(value)` closes the dialog and sends `value` back, and a plain `pop()`
+sends back `null`.
 
 ## Assignment (due before next week)
 
