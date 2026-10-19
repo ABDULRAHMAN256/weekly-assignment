@@ -14,6 +14,15 @@ Each week lives in its own folder under [`flutter_2026/`](flutter_2026/) and has
 
 <!-- Add a new row here each week -->
 
+## Capstone project
+
+The capstone is a group project (groups of three) worth **40% of the final exam**: a
+Flutter app with its own backend, demoed on **Monday 23 November 2026**. Groups and
+ideas are due **Wednesday 21 October**.
+
+Read the full requirements, milestones, and grading in the
+**[capstone guide](flutter_2026/capstone/README.md)**.
+
 ---
 
 ## 1. Setting up your computer
