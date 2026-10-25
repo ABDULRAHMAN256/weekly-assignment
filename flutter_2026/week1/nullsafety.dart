@@ -2,7 +2,7 @@
 
 // A function that might return null (e.g. a user who hasn't set a nickname)
 String? findNickname(String name) {
-  if (name == 'Alice') return 'Al';
+  if (name == 'ADRIAN') return 'adrian';
   return null;
 }
 
@@ -17,8 +17,8 @@ void nullsafety() {
   String displayName = nickname ?? 'Anonymous'; // ?? means "use this if left side is null"
   print(displayName); // Anonymous
 
-  nickname = findNickname('Alice');
-
+  nickname = findNickname('ADRIAN');
+ print (nickname);
   // Check for null first, and inside the if Dart knows nickname is a String,
   // so we can use .length directly (this is called "type promotion")
   if (nickname != null) {
@@ -29,3 +29,4 @@ void nullsafety() {
 void main() {
   nullsafety();
 }
+// i got 6 as my return length 

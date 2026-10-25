@@ -7,7 +7,8 @@ void variables() {
 
   // final = "assign once" (like Java's `final`, similar to a Python constant convention)
   final int age = 25;
-  // age = 26; // ERROR: can't reassign a final variable
+   age = 26; // ERROR: can't reassign a final variable
+   // Syntax error is the type of error
 
   // const = compile-time constant (stronger than final, must be known at compile time)
   const double pi = 3.14159;

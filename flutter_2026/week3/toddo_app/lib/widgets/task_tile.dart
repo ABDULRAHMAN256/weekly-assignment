@@ -31,6 +31,28 @@ class TaskTile extends StatelessWidget {
       key: ObjectKey(task),
       // Only allow swiping from right to left.
       direction: DismissDirection.endToStart,
+      confirmDismiss:(direction) async{
+        final bool? confirmed = await showDialog<bool>(
+          context: context,
+          builder: (dialogContext) => AlertDialog(
+            title : const Text("Delete this task? "),
+            actions:[
+               TextButton(
+                onPressed: () => Navigator.pop(dialogContext, false),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext, true),
+                child: const Text('Delete'),
+              ),
+
+
+
+            ]
+          )
+         );
+         return confirmed ?? false;
+      },
       onDismissed: (_) => onDelete(),
       // What shows behind the row while it is being swiped: red with a bin icon.
       background: Container(

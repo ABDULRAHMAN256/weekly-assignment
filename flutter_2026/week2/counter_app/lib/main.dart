@@ -56,6 +56,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+ static const int _min = -10;
+ static const int _max = 10;
+
+bool _stepIsFive = false;
+ int get _step => _stepIsFive ? 5:1;
+
+
+
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -63,13 +72,15 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+_counter = (_counter + _step).clamp(_min, _max ).toInt();
+
+      
     });
   }
 
   void _decrementCounter() {
     setState(() {
-      _counter--;
+      _counter = (_counter - _step).clamp(_min, _max ).toInt();
     });
   }
 
@@ -78,6 +89,13 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter = 0;
     });
   }
+
+void _toggleStep(bool value){
+  setState(() {
+    _stepIsFive = value;
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: .center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('You have pushed the button this many times:'),
             Text(
@@ -131,6 +149,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     ? Colors.red
                     : (_counter == 0 ? Colors.grey : Colors.green),
               ),
+            ),
+            Text(_counter % 2 == 0 ? "Even" : "Odd"),
+            if (_counter != 0 &&  _counter % 5 == 0)
+            const Text ("That's a multiple of 5"),
+            const SizedBox(height : 16),
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Step of 5'),
+              Switch(value: _stepIsFive, onChanged: _toggleStep),
+            ],
+            
             ),
           ],
         ),
@@ -142,14 +171,14 @@ class _MyHomePageState extends State<MyHomePage> {
             // Each FAB on a screen needs its own heroTag, otherwise Flutter
             // throws an error when navigating to another page.
             heroTag: 'decrement',
-            onPressed: _decrementCounter,
+            onPressed: _counter > _min ?_decrementCounter : null,
             tooltip: 'Decrement',
             child: const Icon(Icons.remove),
           ),
           const SizedBox(width: 16),
           FloatingActionButton(
             heroTag: 'increment',
-            onPressed: _incrementCounter,
+            onPressed: _counter < _max ? _incrementCounter:null,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),

@@ -4,7 +4,7 @@
 int add(int a, int b) {
   return a + b;
 }
-
+bool isEven(int n)=> n % 2 == 0;
 // Arrow syntax for one-line functions (like a lambda, but for named functions too)
 int square(int x) => x * x; // same as { return x * x; } but shorter
 
@@ -18,4 +18,6 @@ void main() {
   print(square(5));
   greet(name: 'Beatrice');                    // uses default greeting
   greet(name: 'Sam', greeting: 'Hey there');   // overrides it
+print (isEven(40));
+print (isEven(911));
 }

@@ -14,6 +14,7 @@ void collections() {
     'Bob': 30,
     'Charlie': 35,
   };
+  
   print(ages['Alice']); // Output: 25
   print(ages['Bob']); // Output: 30
   print(ages['Charlie']); // Output: 35

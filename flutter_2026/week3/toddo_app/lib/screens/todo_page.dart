@@ -80,7 +80,9 @@ class _TodoPageState extends State<TodoPage> {
   void _deleteTask(int index) {
     _update(() => _tasks.removeAt(index));
   }
-
+void _clearCompleted(){
+  _update(() => _tasks.removeWhere((t) => t.isDone));
+}
   // Open the edit dialog and wait for the user to finish. The dialog gives
   // back the new title, or null if they pressed Cancel.
   Future<void> _editTask(int index) async {
@@ -104,8 +106,18 @@ class _TodoPageState extends State<TodoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final int remaining = _tasks.where((t) => !t.isDone).length;
     return Scaffold(
-      appBar: AppBar(title: const Text('My Tasks')),
+      appBar: AppBar(
+        title: Text("My Tasks ($remaining left)"),
+        actions:[
+          IconButton(
+            icon: const Icon(Icons.delete_sweep),
+            tooltip: 'Cleared',
+            onPressed: _tasks.any((t) => t.isDone) ? _clearCompleted : null,
+          )
+        ]
+      ),
       // While loading, show a spinning circle. Once loaded, show the real page.
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
